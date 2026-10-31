@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>放卡管理端</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#121212;color:#fff;padding:16px}
+.container{max-width:700px;margin:0 auto}
+.card{background:#1e1e1e;border-radius:14px;padding:20px;margin-bottom:16px}
+h2{margin-bottom:16px;font-weight:500}
+.item{padding:10px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center}
+button{padding:8px 12px;border:none;border-radius:8px;background:#6366f1;color:#fff;cursor:pointer}
+.tip{color:#facc15;font-size:14px}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2>卡池预览</h2>
+        <div class="tip">⚠️静态版：要增删卡，去get.html里面修改代码，提交GitHub，Netlify自动更新</div>
+        <div id="box"></div>
+    </div>
+</div>
+<script>
+// 和get.html里面的卡池、登录主卡保持一致！
+const loginCard = "ABC123456"; //登录用的主卡，手动保证它时长>10天
+const cardPool = [
+    "CARD001",
+    "CARD002",
+    "CARD003"
+];
+document.getElementById("box").innerHTML = "";
+cardPool.forEach(c=>{
+    const div = document.createElement("div");
+    div.className="item";
+    div.innerHTML = `<span>${c}</span><button onclick="copy('${c}')">复制</button>`
+    document.getElementById("box").appendChild(div);
+})
+function copy(s){
+    navigator.clipboard.writeText(s);
+    alert("已复制："+s)
+}
+</script>
+</body>
+</html>

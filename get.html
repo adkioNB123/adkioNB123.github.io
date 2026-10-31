@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>取卡页面</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#121212;color:#fff;padding:24px}
+.box{max-width:420px;margin:0 auto;background:#1e1e1e;border-radius:14px;padding:24px}
+h2{text-align:center;margin-bottom:20px}
+input{width:100%;padding:14px;background:#2d2d2d;border:0;border-radius:8px;color:#fff;font-size:16px;margin-bottom:14px;outline:none}
+button{width:100%;padding:14px;border:0;border-radius:8px;font-size:16px;font-weight:500;cursor:pointer}
+.btn-login{background:#6366f1;color:#fff}
+.tip{text-align:center;margin:10px 0}
+.ok{color:#4ade80}
+.err{color:#f87171}
+.unlock{display:none;margin-top:20px;border-top:1px solid #333;padding-top:20px}
+.item{padding:10px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center}
+.copy-btn{padding:6px 10px;border:none;border-radius:6px;background:#22c55e;color:#fff}
+</style>
+</head>
+<body>
+<div class="box">
+    <h2>取卡系统</h2>
+    <input id="pwdInput" placeholder="输入登录卡（该卡必须大于10天有效期）">
+    <div class="tip" id="tip"></div>
+    <button class="btn-login" onclick="checkLogin()">验证登录</button>
+
+    <div class="unlock" id="unlockBox">
+        <h3>✅登录成功，可以取卡</h3>
+        <div id="cardBox"></div>
+    </div>
+</div>
+<script>
+// =========这里你自己改！=========
+const loginCard = "ABC123456"; //登录主卡，你手动去km后台看，保证剩余时长>10天
+const cardPool = [
+    "CARD001",
+    "CARD002",
+    "CARD003"
+];
+// ==============================
+
+function checkLogin(){
+    const inputVal = document.getElementById("pwdInput").value.trim();
+    const tip = document.getElementById("tip");
+    if(inputVal === loginCard){
+        tip.className="tip ok";
+        tip.innerText="✅验证通过";
+        document.getElementById("unlockBox").style.display="block";
+        let html = "";
+        cardPool.forEach(c=>{
+            html += `
+            <div class="item">
+                <span>${c}</span>
+                <button class="copy-btn" onclick="copyCard('${c}')">复制</button>
+            </div>
+            `
+        })
+        document.getElementById("cardBox").innerHTML = html;
+    }else{
+        tip.className="tip err";
+        tip.innerText="❌卡密错误，无法进入";
+    }
+}
+function copyCard(c){
+    navigator.clipboard.writeText(c);
+    alert("复制成功："+c)
+}
+</script>
+</body>
+</html>
